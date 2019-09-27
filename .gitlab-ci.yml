@@ -1,0 +1,18 @@
+variables:
+  VERSION: 1.4.3.2
+  DOCKER_IMG: registry.gitlab.com/electronic-gulden-foundation/eguldend-docker
+
+build:
+  stage: build
+  image: docker
+  services:
+    - docker:dind
+  script:
+    - docker build -t $DOCKER_IMG --build-arg VERSION=$VERSION .
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - docker tag $DOCKER_IMG $DOCKER_IMG:latest
+    - docker tag $DOCKER_IMG $DOCKER_IMG:$VERSION
+    - docker push $DOCKER_IMG:latest
+    - docker push $DOCKER_IMG:version
+  only:
+    - master

@@ -13,6 +13,6 @@ build:
     - docker tag $DOCKER_IMG $DOCKER_IMG:latest
     - docker tag $DOCKER_IMG $DOCKER_IMG:$VERSION
     - docker push $DOCKER_IMG:latest
-    - docker push $DOCKER_IMG:version
+    - docker push $DOCKER_IMG:$VERSION
   only:
     - master

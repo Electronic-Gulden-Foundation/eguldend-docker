@@ -1,7 +1,7 @@
-FROM debian:buster
-MAINTAINER "Dennis Ruhe <dennis@egulden.org>"
+FROM debian:bookworm
+LABEL org.opencontainers.image.authors="Dennis Ruhe <dennis@egulden.org>"
 
-ARG VERSION="1.4.3.2"
+ARG VERSION="1.5.0.0"
 
 ENV DEPS="wget ca-certificates xz-utils"
 ENV GROUP_ID=1000
@@ -9,8 +9,8 @@ ENV USER_ID=1000
 ENV HOME=/egulden
 
 RUN groupadd -g ${GROUP_ID} egulden \
-	&& useradd -u ${USER_ID} -g egulden -s /bin/bash -m -d /egulden egulden \
-	&& chown egulden:egulden -R /egulden
+    && useradd -u ${USER_ID} -g egulden -s /bin/bash -m -d /egulden egulden \
+    && chown egulden:egulden -R /egulden
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends $DEPS \
@@ -26,7 +26,7 @@ EXPOSE 11015 21015
 VOLUME $HOME
 WORKDIR /$HOME
 
-ADD docker-entrypoint.sh /usr/local/bin
+COPY docker-entrypoint.sh /usr/local/bin
 
 ENTRYPOINT ["docker-entrypoint.sh"]
 CMD ["eguldend"]
